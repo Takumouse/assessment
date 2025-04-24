@@ -4,22 +4,20 @@ const assessmentButton = document.getElementById('assessment');
 const resultDivision = document.getElementById('result-area');
 const tweetDivision = document.getElementById('tweet-area');
     
-userNameInput.addEventListener(
-        'keydown',
-        (event) => {
-          if (event.code === 'Enter') {
-            assessmentButton.dispatchEvent(new Event('click'));
-          }
-)
-assessmentButton.addEventListener (
-  'click',
-  ()=> {
-   const userName = userNameInput.value;
-   if (userName.length ===0){
-      //名前が空の時は処理を終了する
-    return;
-   }
- 
+// Enterキーで診断できるようにする（初期設定）
+userNameInput.addEventListener('keydown', (event) => {
+    if (event.code === 'Enter') {
+        assessmentButton.dispatchEvent(new Event('click'));
+    }
+});
+
+assessmentButton.addEventListener('click', () => {
+    const userName = userNameInput.value;
+    if (userName.length === 0) {
+        return; // 名前が空の時は処理を終了
+    }
+ resultDivision.innerText = '';
+ tweetDivision.innerText = '';
 
     //TODO 診断結果表示エリアの作成
     const headerDivision=document.createElement('div');
