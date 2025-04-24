@@ -3,7 +3,14 @@ const userNameInput = document.getElementById('user-name');
 const assessmentButton = document.getElementById('assessment');
 const resultDivision = document.getElementById('result-area');
 const tweetDivision = document.getElementById('tweet-area');
-
+    
+userNameInput.addEventListener(
+        'keydown',
+        (event) => {
+          if (event.code === 'Enter') {
+            assessmentButton.dispatchEvent(new Event('click'));
+          }
+)
 assessmentButton.addEventListener (
   'click',
   ()=> {
@@ -58,13 +65,7 @@ assessmentButton.addEventListener (
         }
       )
         }
-    userNameInput.addEventListener(
-        'keydown',
-        (event) => {
-          if (event.code === 'Enter') {
-            assessmentButton.dispatchEvent(new Event('click'));
-          }
-);
+;
 
 const answers = [
  '###userName###のいいところは声です。###userName###の特徴的な声は皆を惹きつけ、心に残ります。',
