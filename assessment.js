@@ -1,71 +1,72 @@
 'use strict';
-const userNameInput = document.getElementById('user-name');
+const userNameInput   = document.getElementById('user-name');
 const assessmentButton = document.getElementById('assessment');
-const resultDivision = document.getElementById('result-area');
-const tweetDivision = document.getElementById('tweet-area');
-    
+const resultDivision   = document.getElementById('result-area');
+const tweetDivision    = document.getElementById('tweet-area');
+
 // Enterキーで診断できるようにする（初期設定）
 userNameInput.addEventListener('keydown', (event) => {
-    if (event.code === 'Enter') {
-        assessmentButton.dispatchEvent(new Event('click'));
-    }   
-   });
+  if (event.code === 'Enter') {
+    assessmentButton.dispatchEvent(new Event('click'));
+  }
+});
 
-
-
+// クリック時の処理
 assessmentButton.addEventListener('click', () => {
-    const userName = userNameInput.value;
-    if (userName.length === 0) {
-        return; // 名前が空の時は処理を終了
-    }
- resultDivision.innerText = '';
- tweetDivision.innerText = '';
+  const userName = userNameInput.value;
+  if (userName.length === 0) {
+    return; // 名前が空の時は処理を終了
+  }
 
-    //TODO 診断結果表示エリアの作成
-    const headerDivision=document.createElement('div');
-    headerDivision.setAttribute('class','card-header text-bg-primary');
-    headerDivision.innerText = '診断結果';
+  // 結果エリア／ツイートエリアをクリア
+  resultDivision.innerText = '';
+  tweetDivision.innerText  = '';
 
-    //bodyDivisionの作成
+  // 診断結果エリアの作成
+  const headerDivision = document.createElement('div');
+  headerDivision.className = 'card-header text-bg-primary';
+  headerDivision.innerText = '診断結果';
 
-    const bodyDivision = document.createElement('div');
-    bodyDivision.setAttribute('class','card-body')
-    
-    const paragraph = document.createElement('p');
-    const result = assessment(userName);
-    paragraph.innerText = result;
-    bodyDivision.appendChild(paragraph);
- // resultDivision に Bootstrap のスタイルを適用する
-    resultDivision.setAttribute('class','card');
- // headerDivision と bodyDivision を resultDivision に差し込む
-    resultDivision.appendChild(headerDivision);
-    resultDivision.appendChild(bodyDivision);
+  const bodyDivision = document.createElement('div');
+  bodyDivision.className = 'card-body';
+  const paragraph = document.createElement('p');
+  const result    = assessment(userName);
+  paragraph.innerText = result;
+  bodyDivision.appendChild(paragraph);
 
+  resultDivision.className = 'card';
+  resultDivision.appendChild(headerDivision);
+  resultDivision.appendChild(bodyDivision);
 
+  // ツイートエリアの作成
+  const anchor = document.createElement('a');
+  const hrefValue =
+    'https://twitter.com/intent/tweet?button_hashtag=' +
+    encodeURIComponent('あなたのいいところ') +
+    '&text=' +
+    encodeURIComponent(result);
+  anchor.href      = hrefValue;
+  anchor.className = 'twitter-hashtag-button';
+  anchor.innerText = 'Tweet #あなたのいいところ';
+  tweetDivision.appendChild(anchor);
 
-    //TODO　ツイートエリアの作成
-    tweetDivision.innerText ='';
-    const anchor= document.createElement('a');
-    const hrefValue =
-     'https://x.com/intent/tweet?button_hashtag='+ 
-     encodeURIComponent('あなたのいいところ')+
-     '&ref_src=twsrc%5Etfw';
+  const script = document.createElement('script');
+  script.src = 'https://platform.twitter.com/widgets.js';
+  tweetDivision.appendChild(script);
+});
 
-      anchor.setAttribute('href',hrefValue);
-      anchor.setAttribute('class','twitter-hashtag-button');
-      anchor.setAttribute('data-text',result);
-      anchor.innerText = 'Tweet #あなたのいいところ';
-
-      tweetDivision.appendChild(anchor);
-
-      const script =document.createElement('script');
-      script.setAttribute('src','https://platform.twitter.com/widgets.js');
-      tweetDivision.appendChild(script);
-      
-        }
-      )
-        }
-;
+// -- 以下、診断ロジックとテストはそのまま --
+const answers = [ /* 略 */ ];
+function assessment(userName) {
+  let sum = 0;
+  for (let i = 0; i < userName.length; i++) {
+    sum += userName.charCodeAt(i);
+  }
+  const index = sum % answers.length;
+  return answers[index].replaceAll('###userName###', userName);
+}
+function test() { /* 略 */ }
+test();
 
 const answers = [
  '###userName###のいいところは声です。###userName###の特徴的な声は皆を惹きつけ、心に残ります。',
