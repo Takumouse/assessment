@@ -8,8 +8,9 @@ const tweetDivision = document.getElementById('tweet-area');
 userNameInput.addEventListener('keydown', (event) => {
     if (event.code === 'Enter') {
         assessmentButton.dispatchEvent(new Event('click'));
-   )}
-}
+    }   
+   )};
+
 
 
 assessmentButton.addEventListener('click', () => {
